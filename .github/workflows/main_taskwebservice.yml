@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'TaskWebService'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C744F013DD947E7950DD49A36E00EF6 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F8798E23BC9E4088B3209A1BD39BF5E6 }}

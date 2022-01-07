@@ -51,7 +51,7 @@ def DIPSName(pathname):
 
 @myapp.route("/")
 def hello():
-    return 'TS Service..., main path: ' +  mainpath + ', ip: ' + ip
+    return 'TS Service... ' +  mainpath + ' ip: ' + ip
 
 @myapp.route('/TS/v0.1/Task',  methods = ['GET'])
 @auth.login_required
@@ -212,7 +212,7 @@ def DIPS_CreateFolderandfile(pathname):
         newfolder = os.path.basename(s)
         pname = os.path.normpath(s[:-len(newfolder)])
         if not os.path.isdir(pname): abort(404)
-        os.makedirs(pname + '\\' + newfolder)
+        os.makedirs(os.path.join(pname,newfolder))
         ret = 200
     else:
         if 'file' not in request.files: abort(404)
@@ -227,12 +227,12 @@ def DIPS_DeleteFolder(pathname):
     if not os.path.isdir(pathname): abort(404)
     lstfiles = os.listdir(pathname)
     for xfile in lstfiles:
-        if os.path.isfile(pathname + '\\' + xfile):
+        if os.path.isfile(os.path.join(pathname, xfile)):
             print('file', xfile)
-            os.remove(pathname + '\\' + xfile)
+            os.remove(os.path.join(pathname, xfile))
         else:
             print('folder', xfile)
-            shutil.rmtree(pathname + '\\' + xfile)
+            shutil.rmtree(os.path.join(pathname, xfile))
     return '', 200
 
 @myapp.route('/TS/v0.1/Directory/DIPS/<string:pathname>',  methods = ['PUT'])
@@ -242,7 +242,7 @@ def DIPS_UpdateFolder(pathname):
     pathname = DIPSName(pathname)
     if os.path.isdir(pathname):
         if 'name' not in request.form: abort(404)
-        os.rename(pathname, mainpath + '\\' + request.form['name'])
+        os.rename(pathname, os.path.join(mainpath, request.form['name']))
     else:
         if os.path.isfile(pathname):
             if 'file' not in request.files: abort(404)

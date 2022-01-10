@@ -34,7 +34,8 @@ def Download_File(sfile):
     if sExt.lower() == '.csv':
         mtype= 'text/csv'
     else:
-        mtype = mimetypes.suffix_map[sExt]
+        #mtype = mimetypes.suffix_map[sExt]
+        mtype = mimetypes.MimeTypes().guess_type(sfile)[0]
     result = send_file(sfile, mimetype=mtype, attachment_filename=fname, conditional=False)
     result.headers['x-filename'] = fname
     result.headers["Access-Control-Expose-Headers"] = 'x-filename'

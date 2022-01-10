@@ -225,15 +225,20 @@ def DIPS_CreateFolderandfile(pathname):
 @auth.login_required
 def DIPS_DeleteFolder(pathname):
     pathname = DIPSName(pathname)
-    if not os.path.isdir(pathname): abort(404)
-    lstfiles = os.listdir(pathname)
-    for xfile in lstfiles:
-        if os.path.isfile(os.path.join(pathname, xfile)):
-            print('file', xfile)
-            os.remove(os.path.join(pathname, xfile))
+    if not os.path.isdir(pathname):
+        if os.path.isfile(pathname):
+            os.remove(pathname)
         else:
-            print('folder', xfile)
-            shutil.rmtree(os.path.join(pathname, xfile))
+            abort(404)
+    else:
+        lstfiles = os.listdir(pathname)
+        for xfile in lstfiles:
+            if os.path.isfile(os.path.join(pathname, xfile)):
+                print('file', xfile)
+                os.remove(os.path.join(pathname, xfile))
+            else:
+                print('folder', xfile)
+                shutil.rmtree(os.path.join(pathname, xfile))
     return '', 200
 
 @myapp.route('/TS/v0.1/Directory/DIPS/<string:pathname>',  methods = ['PUT'])

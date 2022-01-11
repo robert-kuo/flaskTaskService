@@ -176,7 +176,7 @@ def StopStage(taskname, stagename):
 def Download_Record(taskname, stagename):
     sfile = 'StageRecord.xlsx'
     spath = os.path.join(os.path.join(mainpath, taskname), stagename)
-    if not os.path.isfile(spath + sfile): abort(404)
+    if not os.path.isfile(os.path.join(spath, sfile)): abort(404)
     result = Opt_func.Download_EXCELFile(spath, sfile)
     return result
 
